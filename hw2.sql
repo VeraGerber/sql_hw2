@@ -158,11 +158,12 @@ SELECT album_name, AVG(track_duration)
   GROUP BY album_name;
  
 --все исполнители, которые не выпустили альбомы в 2020 году--
-SELECT singer_name, album.year_of_issue 
-  FROM singer
-  JOIN creation ON singer_id = creation.singer_id
-  JOIN album ON creation.album_id = album.id
-  WHERE album.year_of_issue != 2020;
+SELECT sn.singer_name,
+FROM singer sn
+LEFT JOIN album a ON sn singer_id = a.singer_id
+LEFT JOIN album a ON a.album_id = a.album_id
+WHERE a.year_of_issue <> 2020 OR a.year_of_issue IS NULL;  FROM singer
+
  
 --Названия сборников, в которых присутствует конкретный исполнитель--
  SELECT collection_name FROM collection
@@ -172,5 +173,3 @@ SELECT singer_name, album.year_of_issue
   JOIN creation ON album.id = creation.album_id
   JOIN singer ON singer.id = creation.singer_id
   WHERE singer.name = 'Metallica'
-  GROUP BY collection.name
-  ORDER BY collection.name;
